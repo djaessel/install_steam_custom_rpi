@@ -33,7 +33,7 @@ cd "${STARTINGDIR}"
 
 
 # install box64
-BOX64DIR="${PWD}/box84"
+BOX64DIR="${PWD}/box64"
 BOX64BUILDDIR="${BOX64DIR}/build"
 if [ ! -d "${BOX64DIR}" ]; then
   echo "box64 does not exist - downloading necessary things:"
