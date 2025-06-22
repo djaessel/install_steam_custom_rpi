@@ -3,6 +3,7 @@
 STARTINGDIR=${PWD}
 
 # install box86
+echo "Installing or updating box86..."
 BOX86DIR="${PWD}/box86"
 BOX86BUILDDIR="${BOX86DIR}/build"
 if [ ! -d "${BOX86DIR}" ]; then
@@ -33,6 +34,7 @@ cd "${STARTINGDIR}"
 
 
 # install box64
+echo "Installing or updating box64..."
 BOX64DIR="${PWD}/box64"
 BOX64BUILDDIR="${BOX64DIR}/build"
 if [ ! -d "${BOX64DIR}" ]; then
@@ -63,6 +65,7 @@ cd "${STARTINGDIR}"
 
 
 # add additional packages not already installed by box86/box64
+echo "Installing additional packages..."
 sudo dpkg --add-architecture armhf
 sudo apt update
 sudo apt install libnss3:armhf libnm0:armhf libdbus-glib-1-2:armhf libnspr4:armhf libgudev-1.0-0:armhf libxtst6:armhf libsm6:armhf libice6:armhf libusb-1.0-0:armhf libnss3 libnm0 libdbus-glib-1-2 libudev1 libnspr4 libgudev-1.0-0 libxtst6 libsm6 libice6 libusb-1.0-0 libibus-1.0-dev || exit 1
