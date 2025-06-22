@@ -1,6 +1,14 @@
 #!/bin/bash
 
 STARTINGDIR=${PWD}
+TEMPDIR="${STARTINGDIR}/temp"
+
+if [ -d "${BOX86BUILDDIR}" ]; then
+  rm -rf "${TEMPDIR}"
+fi
+mkdir "${TEMPDIR}"
+
+
 
 # install box86
 echo "Installing or updating box86..."
@@ -11,26 +19,34 @@ if [ ! -d "${BOX86DIR}" ]; then
   sudo apt install gcc-arm-linux-gnueabihf
   git clone https://github.com/ptitSeb/box86.git
 fi
+
 cd "${BOX86DIR}"
-if [ -d "${BOX86BUILDDIR}" ]; then
-  cd "$BOX86BUILDDIR"
-  sudo make uninstall
+gitLog=$(git pull)
+gitUptodateTXTDE="Bereits aktuell"
+gitUptodateTXTEN="Everything up-to-date"
+if [[ ! $gitLog =~ $gitUptodateTXTDE ] || [ ! $gitLog =~ $gitUptodateTXTEN ]]; then
+
+  if [ -d "${BOX86BUILDDIR}" ]; then
+    cd "$BOX86BUILDDIR"
+    sudo make uninstall
+    sudo systemctl restart systemd-binfmt
+    cd "${BOX86DIR}"
+    rm -rf build
+  fi
+
+  mkdir build
+  cd build
+  cmake .. -DRPI4ARM64=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo # maybe dynamically change later for different rpi models
+  make -j2
+  sudo make install
   sudo systemctl restart systemd-binfmt
-  cd "${BOX86DIR}"
-  rm -rf build
 fi
-git pull
-mkdir build
-cd build
-cmake .. -DRPI4ARM64=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo # maybe dynamically change later for different rpi models
-make -j2
-sudo make install
-sudo systemctl restart systemd-binfmt
 echo "box86 all set-up!"
 
 
 # reset to start dir
 cd "${STARTINGDIR}"
+
 
 
 # install box64
@@ -42,22 +58,29 @@ if [ ! -d "${BOX64DIR}" ]; then
   #sudo apt install aarch64-w64-mingw32-clang aarch64-w64-mingw32-as # for WOW64
   git clone https://github.com/ptitSeb/box64.git
 fi
+
 cd "${BOX64DIR}"
-if [ -d "${BOX64BUILDDIR}" ]; then
-  cd "$BOX64BUILDDIR"
-  sudo make uninstall
+gitLog=$(git pull)
+gitUptodateTXTDE="Bereits aktuell"
+gitUptodateTXTEN="Everything up-to-date"
+if [[ ! $gitLog =~ $gitUptodateTXTDE ] || [ ! $gitLog =~ $gitUptodateTXTEN ]]; then
+
+  if [ -d "${BOX64BUILDDIR}" ]; then
+    cd "$BOX64BUILDDIR"
+    sudo make uninstall
+    sudo systemctl restart systemd-binfmt
+    cd "${BOX64DIR}"
+    rm -rf build
+  fi
+
+  mkdir build
+  cd build
+  cmake .. -D RPI5ARM64=1 -D CMAKE_BUILD_TYPE=RelWithDebInfo # maybe dynamically change later for different rpi models
+  #cmake .. -DRPI5ARM64=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBOX32=ON -DBOX32_BINFMT=ON -DWOW64=ON # maybe dynamically change later for different rpi models
+  make -j4 # maybe dynamically change later for different rpi models
+  sudo make install
   sudo systemctl restart systemd-binfmt
-  cd "${BOX64DIR}"
-  rm -rf build
 fi
-git pull
-mkdir build
-cd build
-cmake .. -D RPI5ARM64=1 -D CMAKE_BUILD_TYPE=RelWithDebInfo # maybe dynamically change later for different rpi models
-#cmake .. -DRPI5ARM64=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBOX32=ON -DBOX32_BINFMT=ON -DWOW64=ON # maybe dynamically change later for different rpi models
-make -j4 # maybe dynamically change later for different rpi models
-sudo make install
-sudo systemctl restart systemd-binfmt
 echo "box64 all set-up!"
 
 
@@ -91,7 +114,6 @@ echo "Installing steam_latest.deb"
 # hardcode 1.0.0.81 which is the newest version that still uses the `all` dpkg architecture definition which allows steam to be installed on any architecture system without jumping through dpkg hoops
 # the steam_latest.deb pointed to 1.0.0.81 until very recently
 #install_packages https://repo.steampowered.com/steam/archive/stable/steam-launcher_1.0.0.81_all.deb || exit 1
-mkdir temp
 cd temp
 wget https://repo.steampowered.com/steam/archive/stable/steam-launcher_1.0.0.81_all.deb
 sudo dpkg -i steam-launcher_1.0.0.81_all.deb
