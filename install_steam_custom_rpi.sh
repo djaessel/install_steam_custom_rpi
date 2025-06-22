@@ -39,6 +39,7 @@ BOX64DIR="${PWD}/box64"
 BOX64BUILDDIR="${BOX64DIR}/build"
 if [ ! -d "${BOX64DIR}" ]; then
   echo "box64 does not exist - downloading necessary things:"
+  #sudo apt install aarch64-w64-mingw32-clang aarch64-w64-mingw32-as # for WOW64
   git clone https://github.com/ptitSeb/box64.git
 fi
 cd "${BOX64DIR}"
@@ -52,8 +53,8 @@ fi
 git pull
 mkdir build
 cd build
-#cmake .. -D RPI5ARM64=1 -D CMAKE_BUILD_TYPE=RelWithDebInfo # maybe dynamically change later for different rpi models
-cmake .. -DRPI5ARM64=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBOX32=ON -DBOX32_BINFMT=ON -DWOW64=ON # maybe dynamically change later for different rpi models
+cmake .. -D RPI5ARM64=1 -D CMAKE_BUILD_TYPE=RelWithDebInfo # maybe dynamically change later for different rpi models
+#cmake .. -DRPI5ARM64=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBOX32=ON -DBOX32_BINFMT=ON -DWOW64=ON # maybe dynamically change later for different rpi models
 make -j4 # maybe dynamically change later for different rpi models
 sudo make install
 sudo systemctl restart systemd-binfmt
