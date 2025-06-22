@@ -28,12 +28,13 @@ gitUpToDate=0
 
 if [[ $gitLog == *"${gitUptodateTXTDE}"* ]]; then
   gitUpToDate=1
-fi
-if [[ $gitLog == *"${gitUptodateTXTDE}"* ]]; then
+elif [[ $gitLog == *"${gitUptodateTXTDE}"* ]]; then
   gitUpToDate=1
 fi
+
 if [ ! -d "${BOX86BUILDDIR}" ]; then
   gitUpToDate=0
+  echo "box86 build dir does not exit"
 fi
 
 if [ $gitUpToDate == 0 ]; then
@@ -52,6 +53,8 @@ if [ $gitUpToDate == 0 ]; then
   make -j2
   sudo make install
   sudo systemctl restart systemd-binfmt
+else
+  echo "box86 git and build is up-to-date"
 fi
 echo "box86 all set-up!"
 
@@ -79,12 +82,13 @@ gitUpToDate=0
 
 if [[ $gitLog == *"${gitUptodateTXTDE}"* ]]; then
   gitUpToDate=1
-fi
-if [[ $gitLog == *"${gitUptodateTXTDE}"* ]]; then
+elif [[ $gitLog == *"${gitUptodateTXTDE}"* ]]; then
   gitUpToDate=1
 fi
+
 if [ ! -d "${BOX64BUILDDIR}" ]; then
   gitUpToDate=0
+  echo "box64 build dir does not exit"
 fi
 
 if [ $gitUpToDate == 0 ]; then
@@ -104,6 +108,8 @@ if [ $gitUpToDate == 0 ]; then
   make -j4 # maybe dynamically change later for different rpi models
   sudo make install
   sudo systemctl restart systemd-binfmt
+else
+  echo "box64 git and build is up-to-date"
 fi
 echo "box64 all set-up!"
 
