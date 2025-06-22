@@ -21,10 +21,22 @@ if [ ! -d "${BOX86DIR}" ]; then
 fi
 
 cd "${BOX86DIR}"
-gitLog=$(git pull)
+gitLog="$(git pull)"
 gitUptodateTXTDE="Bereits aktuell"
 gitUptodateTXTEN="Everything up-to-date"
-if [[ ! $gitLog =~ $gitUptodateTXTDE ] || [ ! $gitLog =~ $gitUptodateTXTEN ] || [ ! -d "${BOX86BUILDDIR}" ]]; then
+gitUpToDate=0
+
+if [[ $gitLog == *"${gitUptodateTXTDE}"* ]]; then
+  gitUpToDate=1
+fi
+if [[ $gitLog == *"${gitUptodateTXTDE}"* ]]; then
+  gitUpToDate=1
+fi
+if [ ! -d "${BOX86BUILDDIR}" ]; then
+  gitUpToDate=0
+fi
+
+if [ $gitUpToDate == 0 ]; then
 
   if [ -d "${BOX86BUILDDIR}" ]; then
     cd "$BOX86BUILDDIR"
@@ -60,10 +72,22 @@ if [ ! -d "${BOX64DIR}" ]; then
 fi
 
 cd "${BOX64DIR}"
-gitLog=$(git pull)
+gitLog="$(git pull)"
 gitUptodateTXTDE="Bereits aktuell"
 gitUptodateTXTEN="Everything up-to-date"
-if [[ ! $gitLog =~ $gitUptodateTXTDE ] || [ ! $gitLog =~ $gitUptodateTXTEN ] || [ ! -d "${BOX64BUILDDIR}" ]]; then
+gitUpToDate=0
+
+if [[ $gitLog == *"${gitUptodateTXTDE}"* ]]; then
+  gitUpToDate=1
+fi
+if [[ $gitLog == *"${gitUptodateTXTDE}"* ]]; then
+  gitUpToDate=1
+fi
+if [ ! -d "${BOX64BUILDDIR}" ]; then
+  gitUpToDate=0
+fi
+
+if [ $gitUpToDate == 0 ]; then
 
   if [ -d "${BOX64BUILDDIR}" ]; then
     cd "$BOX64BUILDDIR"
