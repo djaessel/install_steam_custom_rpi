@@ -3,7 +3,7 @@
 STARTINGDIR=${PWD}
 TEMPDIR="${STARTINGDIR}/temp"
 
-if [ -d "${BOX86BUILDDIR}" ]; then
+if [ -d "${TEMPDIR}" ]; then
   rm -rf "${TEMPDIR}"
 fi
 mkdir "${TEMPDIR}"
