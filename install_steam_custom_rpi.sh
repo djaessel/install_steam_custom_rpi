@@ -4,15 +4,18 @@ STARTINGDIR=${PWD}
 
 # install box86
 BOX86DIR="${PWD}/box86"
+BOX86BUILDDIR="${BOX86DIR}/build"
 if [ ! -d "${BOX86DIR}" ]; then
   echo "box86 does not exist - downloading necessary things:"
   sudo apt install gcc-arm-linux-gnueabihf
   git clone https://github.com/ptitSeb/box86.git
 fi
-cd box86
-if [ -d "build" ]; then
+cd "${BOX86DIR}"
+if [ -d "${BOX86BUILDDIR}" ]; then
+  cd "$BOX86BUILDDIR"
   sudo make uninstall
   sudo systemctl restart systemd-binfmt
+  cd "${BOX86DIR}"
   rm -rf build
 fi
 git pull
@@ -31,14 +34,17 @@ cd "${STARTINGDIR}"
 
 # install box64
 BOX64DIR="${PWD}/box84"
+BOX64BUILDDIR="${BOX64DIR}/build"
 if [ ! -d "${BOX64DIR}" ]; then
   echo "box64 does not exist - downloading necessary things:"
   git clone https://github.com/ptitSeb/box64.git
 fi
-cd box64
-if [ -d "build" ]; then
+cd "${BOX64DIR}"
+if [ -d "${BOX64BUILDDIR}" ]; then
+  cd "$BOX64BUILDDIR"
   sudo make uninstall
   sudo systemctl restart systemd-binfmt
+  cd "${BOX64DIR}"
   rm -rf build
 fi
 git pull
