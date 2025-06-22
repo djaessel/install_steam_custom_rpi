@@ -24,7 +24,7 @@ cd "${BOX86DIR}"
 gitLog=$(git pull)
 gitUptodateTXTDE="Bereits aktuell"
 gitUptodateTXTEN="Everything up-to-date"
-if [[ ! $gitLog =~ $gitUptodateTXTDE ] || [ ! $gitLog =~ $gitUptodateTXTEN ]]; then
+if [[ ! $gitLog =~ $gitUptodateTXTDE ] || [ ! $gitLog =~ $gitUptodateTXTEN ] || [ ! -d "${BOX86BUILDDIR}" ]]; then
 
   if [ -d "${BOX86BUILDDIR}" ]; then
     cd "$BOX86BUILDDIR"
@@ -63,7 +63,7 @@ cd "${BOX64DIR}"
 gitLog=$(git pull)
 gitUptodateTXTDE="Bereits aktuell"
 gitUptodateTXTEN="Everything up-to-date"
-if [[ ! $gitLog =~ $gitUptodateTXTDE ] || [ ! $gitLog =~ $gitUptodateTXTEN ]]; then
+if [[ ! $gitLog =~ $gitUptodateTXTDE ] || [ ! $gitLog =~ $gitUptodateTXTEN ] || [ ! -d "${BOX64BUILDDIR}" ]]; then
 
   if [ -d "${BOX64BUILDDIR}" ]; then
     cd "$BOX64BUILDDIR"
