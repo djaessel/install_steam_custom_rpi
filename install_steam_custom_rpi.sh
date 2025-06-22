@@ -65,13 +65,13 @@ sudo apt install libnss3:armhf libnm0:armhf libdbus-glib-1-2:armhf libnspr4:armh
 #if package_installed steam-devices ; then
 #  echo "Removing steam-devices package because it conflicts with steam-launcher..."
 #  apt_lock_wait
-#  sudo apt purge -y steam-devices
+sudo apt purge -y steam-devices
 #fi
 
 #if package_installed steamlink ; then
 #  echo "Removing steamlink package because it conflicts with steam-launcher..."
 #  apt_lock_wait
-#  sudo apt purge -y steamlink
+sudo apt purge -y steamlink
 #fi
 
 #prevent lxterm dependency from becoming default terminal
@@ -84,7 +84,7 @@ echo "Installing steam_latest.deb"
 mkdir temp
 cd temp
 wget https://repo.steampowered.com/steam/archive/stable/steam-launcher_1.0.0.81_all.deb
-dpkg -i steam-launcher_1.0.0.81_all.deb
+sudo dpkg -i steam-launcher_1.0.0.81_all.deb
 
 
 # reset to start dir
